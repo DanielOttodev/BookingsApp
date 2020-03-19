@@ -4,7 +4,7 @@ const url = 'http://localhost:5000/api/posts/';
 
 class PostService {
     // Get Posts
-    static getPosts(){
+    static getPosts(){                              // Make static so can call as filename.getPosts() e.g PostService.getPosts()
         return new Promise ((resolve,reject) => {
             axios.get(url).then((res) => {
                 const data = res.data;

@@ -1,0 +1,5 @@
+{
+    "connectionString": "mongodb+srv://admin0000:1Boost23@devadmin-sjh35.mongodb.net/vue_express?retryWrites=true&w=majority",
+    "secret": "devVueFullStack"
+}
+

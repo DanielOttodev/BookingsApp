@@ -10,7 +10,7 @@
 <hr>
 <p class="error" v-if="error">{{ error }}</p>
 <div class="posts-container">
-  <div class="post" v-for="(post) in posts"
+  <div class="post" v-for="(post) in posts"   
   v-bind:key="post._id"
   v-on:dblclick="deletePost(post._id)"
   
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import PostService from '../PostService';
+import PostService from '../PostService';    // Bring in the functions from PostService to use
 export default {
   name: 'PostComponent',
   data() {
@@ -33,11 +33,11 @@ export default {
       text: ''
     }
   },
-  async created(){
+  async created(){ // On component create, load the posts - getPosts()
     try{
       this.posts = await PostService.getPosts()
     }catch(err){
-      this.error = err.message;
+      this.error = "Hmm something went wrong! Try again in a minute."
     }
   },
   methods: {

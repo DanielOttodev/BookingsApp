@@ -1,6 +1,7 @@
 const express = require('express');
 const mongodb = require('mongodb');
 const router = express.Router();
+const verify = require('./../../../_helpers/jwt')
 //const uri = "mongodb+srv://admin0000:1Boost23@devadmin-sjh35.mongodb.net/test?retryWrites=true&w=majority";
 //  Get Posts
 
@@ -33,7 +34,9 @@ async function loadPostsCollection() {
     const client = await mongodb.MongoClient.connect(
       'mongodb+srv://admin0000:1Boost23@devadmin-sjh35.mongodb.net/test?retryWrites=true&w=majority',
       {
-        useNewUrlParser: true
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+        
       }
     );
   
