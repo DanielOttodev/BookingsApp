@@ -12,7 +12,7 @@
           <v-btn fab text small color="grey darken-2" @click="next">
             <v-icon small>mdi-chevron-right</v-icon>
           </v-btn>
-          <v-toolbar-title>{{ title }}</v-toolbar-title>
+          <v-toolbar-title class="ml-2">{{ title }}</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-menu bottom right>
             <template v-slot:activator="{ on }">
@@ -24,6 +24,67 @@
                 <span>{{ typeToLabel[type] }}</span>
                 <v-icon right>mdi-menu-down</v-icon>
               </v-btn>
+
+              <v-dialog v-model="dialog" persistent max-width="500px">
+      <template v-slot:activator="{ on }">
+        <v-btn color="indigo" dark v-on="on" class="mr-3">
+          Add Event
+        </v-btn>
+      </template>
+      <v-card>
+        <v-card-title>
+          <span class="headline">User Profile</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-col cols="12" sm="6" md="4">
+                <v-text-field label="Legal first name*" required></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="4">
+                <v-text-field label="Legal middle name" hint="example of helper text only on focus"></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="4">
+                <v-text-field
+                  label="Legal last name*"
+                  hint="example of persistent helper text"
+                  persistent-hint
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field label="Email*" required></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field label="Password*" type="password" required></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-select
+                  :items="['0-17', '18-29', '30-54', '54+']"
+                  label="Age*"
+                  required
+                ></v-select>
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-autocomplete
+                  :items="['Skiing', 'Ice hockey', 'Soccer', 'Basketball', 'Hockey', 'Reading', 'Writing', 'Coding', 'Basejump']"
+                  label="Interests"
+                  multiple
+                ></v-autocomplete>
+              </v-col>
+            </v-row>
+          </v-container>
+          <small>*indicates required field</small>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
+          <v-btn color="blue darken-1" text @click="dialog = false">Save</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+
             </template>
             <v-list>
               <v-list-item @click="type = 'day'">
@@ -126,8 +187,8 @@ const url = 'http://localhost:5000/api/events';
       selectedOpen: false,
       events: [],
       dialog: false,
-      colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
-     
+      colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1']
+
     }),
    computed: {
       title () {
@@ -171,10 +232,12 @@ const url = 'http://localhost:5000/api/events';
     methods:{
       getEvents(){
           try {
-            
+            const events =[]
            axios.get(url)
            .then(response => {
-             this.events = response.data;
+             
+             events.push(response.data);
+              this.events = events;
            })
            .catch(err => {
              this.errors.push(err)
@@ -182,6 +245,7 @@ const url = 'http://localhost:5000/api/events';
           }catch (err) {
               this.err = err.message;
           }
+         
       },
        viewDay ({ date }) {
         this.focus = date
@@ -216,31 +280,10 @@ const url = 'http://localhost:5000/api/events';
         nativeEvent.stopPropagation()
       },
       updateRange ({ start, end }) {
-        const events = []
-
-        const min = new Date(`${start.date}T00:00:00`)
-        const max = new Date(`${end.date}T23:59:59`)
-        const days = (max.getTime() - min.getTime()) / 86400000
-        const eventCount = this.rnd(days, days + 20)
-
-        for (let i = 0; i < eventCount; i++) {
-          const allDay = this.rnd(0, 3) === 0
-          const firstTimestamp = this.rnd(min.getTime(), max.getTime())
-          const first = new Date(firstTimestamp - (firstTimestamp % 900000))
-          const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
-          const second = new Date(first.getTime() + secondTimestamp)
-
-          events.push({
-            name: this.names[this.rnd(0, this.names.length - 1)],
-            start: this.formatDate(first, !allDay),
-            end: this.formatDate(second, !allDay),
-            color: this.colors[this.rnd(0, this.colors.length - 1)],
-          })
-        }
-
+       
         this.start = start
         this.end = end
-        this.events = events
+
       },
       nth (d) {
         return d > 3 && d < 21

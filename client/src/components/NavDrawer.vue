@@ -49,33 +49,7 @@
             </v-list-item-content>
           </v-list-item>
         </v-list>
-         <v-list-group
-          no-action
-          sub-group
-          value="true"
-        >
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title>Client
-                <v-list-item-icon>
-              <v-icon >{{admin.icon}}</v-icon>
-            </v-list-item-icon>
-              </v-list-item-title>
-            </v-list-item-content>
-          </template>
-
-          <v-list-item
-            v-for="(admin, i) in admins"
-            :key="i"
-            link
-          > 
-          <v-list-item-icon>
-              <v-icon v-text="admin[1]"></v-icon>
-            </v-list-item-icon>
-            <v-list-item-title v-text="admin[0]"></v-list-item-title>
-           
-          </v-list-item>
-        </v-list-group>
+        
       </v-navigation-drawer>
 
   </v-container>
@@ -91,16 +65,12 @@
           { title: 'Dashboard', icon: 'mdi-view-dashboard',path:'/' },
           { title: 'Calendar', icon: 'mdi-calendar-today',path:'/calendar'},
           { title: 'Events', icon: 'mdi-bookmark-multiple',path:'/events'},
+          {title: 'Clients', icon: 'mdi-account-cog',path:'/clients'},
           {title: 'Marketing', icon: 'mdi-elevation-rise',path:'/marketing'},
           {title: 'Settings', icon:"mdi-shape-plus",path:'/settings'}
           
         ],
-        admins: [
-        ['New Client', 'mdi-account-plus'],
-        ['Manage Client', 'mdi-account-cog'],
-      ],
-         admin:[{icon: 'mdi-account-box'}]
-         ,
+
         color: 'primary',
         colors: [
           'primary',
