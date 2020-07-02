@@ -34,6 +34,7 @@ app.use('/api/posts',posts); // For any calls to url:port/api/posts, use the pos
 app.use('/api/product',products);
 app.use('/api/events', events);
 app.use('/api/login',login)
+app.use('/',res.send("welcome to the Matrix."))
 
 app.use(errorHandler);
 //Port
