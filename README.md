@@ -1,2 +1,0 @@
-# BookingsApp
-Vue JS App
